@@ -1,0 +1,9 @@
+h1 {
+    margin: 5px 0;
+    line-height: 1;
+}
+
+.wrap {
+    padding: 5px 0;
+    border-top: 1px dashed #000;
+}

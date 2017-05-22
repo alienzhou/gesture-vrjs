@@ -65,7 +65,6 @@
         });
     }
 
-
     function dump(){
 	    if (canvas.width !== video.videoWidth){
 		    width = Math.floor(video.videoWidth / compression);
@@ -95,9 +94,12 @@
 	        canvasBgfilter.height = height;
             filterDynamicBg(draw, pixData);
             canvasBgfilter.getContext('2d').putImageData(draw, 0, 0);
-        }
 
-        drawCircle(point(draw));
+            canvasPoint.width = width;
+	        canvasPoint.height = height;
+            // canvasPoint.getContext('2d').putImageData(draw, 0, 0);
+            drawCircle(point(draw));
+        }
 
         if (firstPaint) {
             firstPaint = !firstPaint;
@@ -111,13 +113,14 @@
     }
 
     function drawCircle(centerArr) {
+        if (centerArr[0] === 0 && centerArr[1] === 0) {
+            return;
+        }
         var ctx = canvasPoint.getContext('2d');
-		canvasPoint.width = Math.floor(video.videoWidth);
-		canvasPoint.height = Math.floor(video.videoHeight);
         ctx.beginPath();
         ctx.strokeStyle = '#000';
         ctx.lineWidth = 5;
-        ctx.arc(centerArr[0], centerArr[1], 20, (Math.PI / 180) * 0, (Math.PI / 180) * 360, false);
+        ctx.arc(centerArr[1], centerArr[0], 1, (Math.PI / 180) * 0, (Math.PI / 180) * 360, false);
         ctx.stroke();
         ctx.closePath();
     }
@@ -129,18 +132,18 @@
         var tmp = [];
         var sum = [0, 0];
         for (var i = 0; i < len; i++) {
-            if (imageData.data[4 * i + 3] === 200) {
+            if (imageData.data[4 * i + 0] === 255) {
                 tmp.push([Math.floor(i / col), i % col]);
             }
         }
-        if (tmp.length === 0) {
+        if (tmp.length < $('#pix-amount').val()) {
             return sum;
         }
         tmp.forEach(function(ele, idx) {
             sum[0] += ele[0];
             sum[1] += ele[1];
         });
-        return [sum[0] / sum.length, sum[1] / sum.length];
+        return [sum[0] / tmp.length, sum[1] / tmp.length];
     }
 
     function maskData(imageData, origin, type) {

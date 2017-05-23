@@ -92,7 +92,8 @@
         if (realBgPix) {
             canvasBgfilter.width = width;
 	        canvasBgfilter.height = height;
-            filterDynamicBg(draw, pixData);
+            var count = filterDynamicBg(draw, pixData);
+            console.log(count);
             canvasBgfilter.getContext('2d').putImageData(draw, 0, 0);
 
             canvasPoint.width = width;
@@ -179,8 +180,11 @@
         return tmp;
     }
 
+    // 动态背景过滤
     function filterDynamicBg(imageData, origin) {
         var len = origin.length / 4;
+        var count = 0;
+        var idxArr = [];
         for (var i = 0; i < len; i++) {
             if (similarColor(
                     [origin[4 * i + 0], origin[4 * i + 1], origin[4 * i + 2]],
@@ -195,6 +199,8 @@
                 imageData.data[4 * i + 1] = 255;
                 imageData.data[4 * i + 2] = 255;
                 imageData.data[4 * i + 3] = 200;
+                idxArr.push(i);
+                count++;
             }
             else {
                 imageData.data[4 * i + 0] = 0;
@@ -203,6 +209,16 @@
                 imageData.data[4 * i + 3] = 255;
             }
         }
+        // 噪声点过滤
+        if (idxArr.length < 8) {
+            for (var i = 0, size = idxArr.length; i < size; i++) {
+                imageData.data[4 * idxArr[i] + 0] = 0;
+                imageData.data[4 * idxArr[i] + 1] = 0;
+                imageData.data[4 * idxArr[i] + 2] = 0;
+                imageData.data[4 * idxArr[i] + 3] = 255;
+            }
+        }
+        return count;
     }
 
     function filterBg(imageData, origin) {
@@ -241,6 +257,7 @@
         }
     }
 
+    // 皮肤过滤
     function filterSkin(imageData, origin) {
         var len = origin.length / 4;
         var tmp;

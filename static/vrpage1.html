@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>alienUI</title>
+    <script src="/static/js/zepto.1.2.0.min.js"></script>
+    <style type="text/css">
+        html{
+            height: 100%;
+        }
+
+        body{
+            height: 100%;
+            background-color: #000000;
+            margin: 0;
+            padding: 0;
+        }
+
+        .cube{
+            position: absolute;
+            top: 150px;
+            left: 0px;
+            width: 200px;
+            height: 200px;
+            perspective: 900px;
+            box-sizing:border-box;
+            transition: 1s ease-in-out;
+            -moz-transform-origin: 50% 100% -50px;
+            transform-style: preserve-3d;
+        }
+
+        .number{
+            position: absolute;
+            bottom: 35px;
+            left: 200px;
+            color: #ffffff;
+            transform: translateZ(-100px);
+            font-size: 50px;
+        }
+
+        .panel{
+            position: absolute;
+            bottom: 0px;
+            left: 0px;
+            height: 200px;
+            background: #391212;
+            width: 200px;
+            padding: 30px;
+            box-sizing:border-box;
+            transform: rotateY(0deg) rotateX(-90deg) translateY(100px) translateZ(100px);
+            -moz-transform-origin: 0% center;
+            transition: 1s ease-in-out;
+            /*-moz-animation:mymove2 5s infinite;  Firefox */
+            
+        }
+
+        .panel-back{
+            position: absolute;
+            bottom: 0px;
+            left: 0px;
+            height: 200px;
+            background: #382174;
+            width: 200px;
+            padding: 30px;
+            box-sizing:border-box;
+            transform: rotateY(0deg) translateZ(-200px);
+            -moz-transform-origin: 0% center;
+            transition: 1s ease-in-out;
+            /*-moz-transform-origin: center 100% -150px;*/
+        }
+
+        .panel-left{
+            position: absolute;
+            bottom: 0px;
+            left: 0px;
+            height: 200px;
+            background: #e61290;
+            width: 200px;
+            padding: 30px;
+            box-sizing:border-box;
+            transform:translateZ(-100px) translateX(-100px)  rotateY(90deg) rotateY(0deg);
+            -moz-transform-origin: 0% center;
+            transition: 1s ease-in-out;
+        }
+
+        .panel .intro-title{
+            color: #ffffff;
+            font-size: 15px;
+            margin-bottom: 8px;
+        }
+
+        .stage{
+            vertical-align: center;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+            box-sizing: border-box;
+            /*-moz-transform-origin: center 100% -150px;*/
+        }
+
+        .left-eye{
+            float: left;
+            position: relative;
+            transform-style: preserve-3d;
+            width: 50%;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+            perspective: 3000px;
+            perspective-origin: calc(50% - 30px) 30%;
+            box-sizing: border-box;
+            border-right: 1px dashed rgba(255,255,255,0.4);
+        }
+
+        .right-eye{
+            float: left;
+            position: relative;
+            transform-style: preserve-3d;
+            width: 50%;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+            perspective: 3000px;
+            perspective-origin: calc(50% + 30px) 30%;
+            box-sizing: border-box;
+        }
+
+        .content{
+            position: relative;
+            margin-left: 50%;
+            width: 100px;
+            height: 100%;
+        }
+
+        @keyframes mymove1
+        {
+        0% {transform: translateZ(0px);}
+        50% {transform: translateZ(-1600px);}
+        100% {transform: translateZ(0px);}
+        }
+
+        @-moz-keyframes mymove1 /* Firefox */
+        {
+        0% {transform: translateZ(0px);}
+        50% {transform: translateZ(-1600px);}
+        100% {transform: translateZ(0px);}
+        }
+
+        @keyframes mymove2
+        {
+        0% {transform: rotateX(0deg);}
+        50% {transform: rotateX(90deg);}
+        100% {transform: rotateX(0deg);}
+        }
+
+        @-moz-keyframes mymove2 /* Firefox */
+        {
+        0% {transform: rotateX(0deg);}
+        50% {transform: rotateX(90deg);}
+        100% {transform: rotateX(0deg);}
+        }
+
+        #deg{
+            width: 200px;
+            position: fixed;
+            bottom: 0px;
+            right: 0px;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+    <input id="deg" value="0">
+    <div class="stage">
+        <div class="left-eye">
+            <span class="number">0°</span>
+            <div class="content">
+                <div class="cube">
+                    <div class="panel"></div>
+                    <div class="panel-back"></div>
+                    <div class="panel-left"></div>
+                </div>
+            </div> 
+        </div>
+        <div class="right-eye">
+            <span class="number">0°</span>
+            <div class="content">
+                <div class="cube">
+                    <div class="panel"></div>
+                    <div class="panel-back"></div>
+                    <div class="panel-left"></div>
+                </div>
+            </div> 
+        </div>
+        <div class="alien-clear"></div>
+    </div>
+    <script type="text/javascript">
+        function init(){
+            document.getElementById('deg').value=0;
+            if("\v"=="v"){
+                document.getElementById('deg').onpropertychange=changeValue;
+            }else{
+                document.getElementById('deg').addEventListener('input',changeValue,false);
+            }
+        }
+
+        function changeValue(){
+            $('.number').each(function(){
+                $(this).text($('#deg').val()+'°');
+            });
+            $('.panel').each(function(){
+                $(this).css('transform','rotateY('+$('#deg').val()+'deg) rotateX(-90deg) translateY(100px) translateZ(100px)');
+            });
+            $('.panel-back').each(function(){
+                $(this).css('transform','rotateY('+$('#deg').val()+'deg) translateZ(-200px)');
+            });
+            $('.panel-left').each(function(){
+                $(this).css('transform','translateZ(-100px) translateX(-100px) rotateY(90deg) rotateY('+$('#deg').val()+'deg)');
+            });
+        }
+        init();
+
+        // setInterval(function () {
+        //     $('#deg').val(+$('#deg').val() + 30);
+        //     changeValue();
+        // }, 2000);
+    </script>
+    <script src="/static/js/vrpage.js"></script>
+</body>
+</html>

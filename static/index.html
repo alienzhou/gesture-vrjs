@@ -11,7 +11,6 @@
     <div class="container">
         <h1>experiment</h1>
         <div>
-            <button id="bg-ctrl">generate bg</button>
             <button id="similar-ctrl">similar color</button>
             <button id="skin-ctrl">skin</button>
         </div>
@@ -34,23 +33,27 @@
             <div>初步处理</div>
             <video id="video" autoplay width="300"></video>
             <canvas id="canvas" style="width:300px;"></canvas>
-            <canvas id="canvas-bg" style="width:300px;" id></canvas>
         </div>
         <div class="wrap">
             <div>过滤</div>
             <canvas id="canvas-skin" style="width:300px;"></canvas>
-            <canvas id="canvas-filter" style="width:300px;"></canvas>
             <canvas id="canvas-bgfilter" style="width:300px;"></canvas>
         </div>
         <div class="wrap">
             <div>抽象处理</div>
             <div>
-                <label for="pix-amount">pix amount</label><input id="pix-amount" type="text" value="7">
+                <label for="pix-amount">pix amount</label><input id="pix-amount" type="text" value="9">
+                <label for="interval">quene interval</label><input id="interval" type="text" value="600">
+                <label>实时方向：</label><span id="realtime" class="direction">none</span>
+                <label>平滑处理：</label><span id="smooth" class="direction">none</span>
+                <label>方向判断：</label><span id="direction" class="direction">none</span>
             </div>
             <canvas id="canvas-point" style="width:300px;"></canvas>
         </div>
     </div>
     <script src="/static/js/zepto.1.2.0.min.js"></script>
+    <script src="/static/js/lib/img.process.js"></script>
+    <script src="/static/js/lib/math.js"></script>
 	<script src="/static/js/video.js"></script>
 </body>
 </html>

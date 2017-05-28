@@ -2,18 +2,37 @@
     var video = document.getElementById('video');
     var canvas = document.getElementById('canvas');
     var canvasBg = document.getElementById('canvas-bg');
-    var canvasFilter = document.getElementById('canvas-filter');
     var canvasSkin = document.getElementById('canvas-skin');
     var canvasBgfilter = document.getElementById('canvas-bgfilter');
     var canvasPoint = document.getElementById('canvas-point');
 
-    var context = canvas.getContext('2d');
-    var height = 0;
-    var width = 0;
-    var compression = 15;
-    var firstPaint = true;
-    var bgPix;
-    var realBgPix;
+    var height = 0;                             // 高度
+    var width = 0;                              // 宽度
+    var compression = 15;                       // 压缩度
+    var realBgPix;                              // 实时背景像素（上一帧）
+    var centerArr = [];                         // 中心点坐标
+    var lastCenter = [-1, -1];                  // 上一帧中心点
+    var centerQuene = [];                       // 中心点队列
+    var quene = {
+        timer: undefined,                       // 队列循环器
+        gap: $('#interval').val()               // 队列循环间隔
+    }
+    var simiThreshold = {
+        huethrd: $('#huethrd').val(),
+        satthrd: $('#satthrd').val(),
+        valthrd: $('#valthrd').val()
+    };
+    var skinThreshold = {
+        huemin: $('#huemin').val(),
+        huemax: $('#huemax').val(),
+        satmin: $('#satmin').val(),
+        satmax: $('#satmax').val(),
+        valmin: $('#valmin').val(),
+        valmax: $('#valmax').val()
+    };
+
+    // 延时绘制
+    delayCal();
 
     navigator.getUserMedia({
         audio: false,
@@ -30,87 +49,191 @@
 	    throw new Error('don\'t support');
     });
 
-    $('#bg-ctrl').on('click', function() {
-        generateBg();
+    $('#similar-ctrl').on('click', function () {
+        console.table([simiThreshold]);
+        console.table(centerQuene);
     });
-    $('#similar-ctrl').on('click', function() {
-        var obj = [{
+    $('#skin-ctrl').on('click', function () {
+        console.table([skinThreshold]);
+    });
+    $('#interval').on('change', function () {
+        clearTimeout(quene.timer);
+        quene.gap = $(this).val();
+        // 延时绘制
+        delayCal();
+    })
+
+    function queneProcess() {
+        var tmp = [];
+        var moveArr = [];
+        var flag = 0;
+        var delt = 0;
+        var i = 0;
+        var direction = 'none';
+        while (centerQuene.length > 0) {
+            tmp = centerQuene.shift();
+            if (flag >= 2) {
+                //console.log(111)
+                break;
+            }
+            else if (tmp[0] === 0 && tmp[1] === 0) {
+                //console.log("flag: " +flag)
+                flag += delt;
+            }
+            else {
+                //console.log(333)
+                delt = 1;
+                moveArr.push(tmp);
+            }
+            tmp = [];
+            i++;
+        }
+        if (moveArr.length > 2) {
+            var angle = MCal.calAngle(moveArr[0], moveArr[moveArr.length - 1]);
+            $('#smooth').text(angle);
+            if (angle >= 315 || angle < 45) {
+                direction = '右';
+            }
+            else if (angle >= 45 && angle < 135) {
+                direction = '上';
+            }
+            else if (angle >= 135 && angle < 225) {
+                direction = '左';
+            }
+            else {
+                direction = '下';
+            }
+        }
+        else {
+            $('#smooth').text('none');
+        }
+        $('#direction').text(direction);
+    }
+
+    function delayCal() {
+        queneProcess();
+        quene.timer = setTimeout(delayCal, quene.gap);
+    }
+
+    function realCal(center) {
+        $('#realtime').text(MCal.calAngle(lastCenter, center));
+    }
+
+    function dump(){
+        simiThreshold = {
             huethrd: $('#huethrd').val(),
             satthrd: $('#satthrd').val(),
             valthrd: $('#valthrd').val()
-        }];
-        console.table(obj);
-    });
-    $('#skin-ctrl').on('click', function() {
-        var obj = [{
+        };
+        skinThreshold = {
             huemin: $('#huemin').val(),
             huemax: $('#huemax').val(),
             satmin: $('#satmin').val(),
             satmax: $('#satmax').val(),
             valmin: $('#valmin').val(),
             valmax: $('#valmax').val()
-        }];
-        console.table(obj);
-    });
+        };
 
-    function generateBg() {
-        canvasBg.width = width;
-	    canvasBg.height = height;
-        canvasBg.getContext('2d').drawImage(canvas, 0, 0);
-        var tmp = canvasBg.getContext('2d').getImageData(0, 0, width, height).data;
-
-        bgPix = new Uint8ClampedArray(tmp.length);
-        tmp.forEach(function(ele, idx) {
-            bgPix[idx] = ele;
-        });
-    }
-
-    function dump(){
+        // 将video模糊映射至canvas
 	    if (canvas.width !== video.videoWidth){
 		    width = Math.floor(video.videoWidth / compression);
 		    height = Math.floor(video.videoHeight / compression);
 		    canvas.width = width;
 		    canvas.height = height;
 	    }
-	    context.drawImage(video, 0, 0, width, height);
+	    canvas.getContext('2d').drawImage(video, 0, 0, width, height);
 
-	    var draw = context.getImageData(0, 0, width, height);
+        // 保存原图像像素信息
+	    var draw = canvas.getContext('2d').getImageData(0, 0, width, height);
         var pixData = fetchPixData(draw)
 
+        // 皮肤过滤
         canvasSkin.width = width;
 	    canvasSkin.height = height;
-        filterSkin(draw, pixData);
+        skinFilter(draw, pixData);
         canvasSkin.getContext('2d').putImageData(draw, 0, 0);
 
-        if (bgPix) {
-            canvasFilter.width = width;
-	        canvasFilter.height = height;
-            filterBg(draw, pixData);
-            canvasFilter.getContext('2d').putImageData(draw, 0, 0);
-        }
-
         if (realBgPix) {
+             // 背景差过滤
             canvasBgfilter.width = width;
 	        canvasBgfilter.height = height;
-            var count = filterDynamicBg(draw, pixData);
-            console.log(count);
+            var center = filter(draw, pixData);
             canvasBgfilter.getContext('2d').putImageData(draw, 0, 0);
 
+            // 抽象点绘制
             canvasPoint.width = width;
 	        canvasPoint.height = height;
-            // canvasPoint.getContext('2d').putImageData(draw, 0, 0);
-            drawCircle(point(draw));
-        }
+            drawCircle(center);
 
-        if (firstPaint) {
-            firstPaint = !firstPaint;
-            setTimeout(generateBg, 1000);
+            // 放至队列
+            centerQuene.push([center[0], center[1]]);
+            // 实时绘制
+            realCal(center);
+            // 更新前一个中心点
+            lastCenter[0] = center[0];
+            lastCenter[1] = center[1];
         }
 
         realBgPix = new Uint8ClampedArray(pixData.length);
         pixData.forEach(function(ele, idx) {
             realBgPix[idx] = ele;
         });
+    }
+
+    function filter(imageData, origin) {
+        var len = origin.length / 4;
+        var rowNum = imageData.height;
+        var colNum = imageData.width;
+        var idxArr = [];
+        var tmp = [];
+        var sum = [0, 0];
+        for (var i = 0; i < len; i++) {
+            var now = [origin[4 * i + 0], origin[4 * i + 1], origin[4 * i + 2]];
+            var former = [realBgPix[4 * i + 0], realBgPix[4 * i + 1], realBgPix[4 * i + 2]];
+            // 皮肤与背景差过滤
+            if (ImgP.isSkin(now, skinThreshold)
+                && !ImgP.isSimilar(now, former, simiThreshold)) {
+                imageData.data[4 * i + 0] = 255;
+                imageData.data[4 * i + 1] = 255;
+                imageData.data[4 * i + 2] = 255;
+                imageData.data[4 * i + 3] = 200;
+                // 存储序号值
+                idxArr.push(i);
+                // 计算中心点坐标和
+                sum[0] += i % colNum;
+                sum[1] += Math.floor(i / colNum);
+            }
+            else {
+                imageData.data[4 * i + 0] = 0;
+                imageData.data[4 * i + 1] = 0;
+                imageData.data[4 * i + 2] = 0;
+                imageData.data[4 * i + 3] = 255;
+            }
+        }
+        // 噪声点过滤
+        if (idxArr.length < $('#pix-amount').val()) {
+            for (var i = 0, size = idxArr.length; i < size; i++) {
+                imageData.data[4 * idxArr[i] + 0] = 0;
+                imageData.data[4 * idxArr[i] + 1] = 0;
+                imageData.data[4 * idxArr[i] + 2] = 0;
+                imageData.data[4 * idxArr[i] + 3] = 255;
+            }
+            return [0, 0];
+        }
+        return [colNum - 1 - sum[0] / idxArr.length, sum[1] / idxArr.length];
+    }
+
+    function skinFilter(imageData, origin) {
+        var len = origin.length / 4;
+        var tmp;
+        for (var i = 0; i < len; i++) {
+            var now = [origin[4 * i + 0], origin[4 * i + 1], origin[4 * i + 2]];
+            if (!ImgP.isSkin(now, skinThreshold)) {
+                imageData.data[4 * i + 0] = 0;
+                imageData.data[4 * i + 1] = 0;
+                imageData.data[4 * i + 2] = 0;
+            }
+        }
     }
 
     function drawCircle(centerArr) {
@@ -121,52 +244,9 @@
         ctx.beginPath();
         ctx.strokeStyle = '#000';
         ctx.lineWidth = 5;
-        ctx.arc(centerArr[1], centerArr[0], 1, (Math.PI / 180) * 0, (Math.PI / 180) * 360, false);
+        ctx.arc(centerArr[0], centerArr[1], 1, (Math.PI / 180) * 0, (Math.PI / 180) * 360, false);
         ctx.stroke();
         ctx.closePath();
-    }
-
-    function point(imageData) {
-        var len = imageData.data.length / 4;
-        var row = imageData.height;
-        var col = imageData.width;
-        var tmp = [];
-        var sum = [0, 0];
-        for (var i = 0; i < len; i++) {
-            if (imageData.data[4 * i + 0] === 255) {
-                tmp.push([Math.floor(i / col), i % col]);
-            }
-        }
-        if (tmp.length < $('#pix-amount').val()) {
-            return sum;
-        }
-        tmp.forEach(function(ele, idx) {
-            sum[0] += ele[0];
-            sum[1] += ele[1];
-        });
-        return [sum[0] / tmp.length, sum[1] / tmp.length];
-    }
-
-    function maskData(imageData, origin, type) {
-        var idx = 0;
-        if (type === 'g') {
-            idx = 1;
-        }
-        if (type === 'b') {
-            idx = 2;
-        }
-        var len = origin.length / 4;
-        for (var i = 0; i < len; i++) {
-            for (var j = 0; j < 4; j++) {
-                if (j === idx) {
-                    imageData.data[4 * i + j] = 255;
-                }
-                else {
-                    imageData.data[4 * i + j] = origin[4 * i + j];
-                }
-            }
-            imageData.data[4 * i + 3] = 200;
-        }
     }
 
     function fetchPixData(imageData, type) {
@@ -178,166 +258,5 @@
             }
         }
         return tmp;
-    }
-
-    // 动态背景过滤
-    function filterDynamicBg(imageData, origin) {
-        var len = origin.length / 4;
-        var count = 0;
-        var idxArr = [];
-        for (var i = 0; i < len; i++) {
-            if (similarColor(
-                    [origin[4 * i + 0], origin[4 * i + 1], origin[4 * i + 2]],
-                    [realBgPix[4 * i + 0], realBgPix[4 * i + 1], realBgPix[4 * i + 2]])) {
-                imageData.data[4 * i + 0] = 0;
-                imageData.data[4 * i + 1] = 0;
-                imageData.data[4 * i + 2] = 0;
-                imageData.data[4 * i + 3] = 255;
-            }
-            else if(isSkin(origin[4 * i + 0], origin[4 * i + 1], origin[4 * i + 2])) {
-                imageData.data[4 * i + 0] = 255;
-                imageData.data[4 * i + 1] = 255;
-                imageData.data[4 * i + 2] = 255;
-                imageData.data[4 * i + 3] = 200;
-                idxArr.push(i);
-                count++;
-            }
-            else {
-                imageData.data[4 * i + 0] = 0;
-                imageData.data[4 * i + 1] = 0;
-                imageData.data[4 * i + 2] = 0;
-                imageData.data[4 * i + 3] = 255;
-            }
-        }
-        // 噪声点过滤
-        if (idxArr.length < 8) {
-            for (var i = 0, size = idxArr.length; i < size; i++) {
-                imageData.data[4 * idxArr[i] + 0] = 0;
-                imageData.data[4 * idxArr[i] + 1] = 0;
-                imageData.data[4 * idxArr[i] + 2] = 0;
-                imageData.data[4 * idxArr[i] + 3] = 255;
-            }
-        }
-        return count;
-    }
-
-    function filterBg(imageData, origin) {
-        var len = origin.length / 4;
-        for (var i = 0; i < len; i++) {
-            if (similarColor(
-                    [origin[4 * i + 0], origin[4 * i + 1], origin[4 * i + 2]],
-                    [bgPix[4 * i + 0], bgPix[4 * i + 1], bgPix[4 * i + 2]])) {
-                imageData.data[4 * i + 0] = 0;
-                imageData.data[4 * i + 1] = 0;
-                imageData.data[4 * i + 2] = 0;
-                imageData.data[4 * i + 3] = 255;
-            }
-            else if(isSkin(origin[4 * i + 0], origin[4 * i + 1], origin[4 * i + 2])) {
-                imageData.data[4 * i + 0] = 255;
-                imageData.data[4 * i + 1] = 255;
-                imageData.data[4 * i + 2] = 255;
-                imageData.data[4 * i + 3] = 255;
-            }
-            else {
-                imageData.data[4 * i + 0] = 0;
-                imageData.data[4 * i + 1] = 0;
-                imageData.data[4 * i + 2] = 0;
-                imageData.data[4 * i + 3] = 255;
-            }
-        }
-    }
-
-    function postData(imageData, origin) {
-        var len = origin.length / 4;
-        for (var i = 0; i < len; i++) {
-            imageData.data[4 * i + 0] = origin[4 * i + 0] & 0xe0;
-            imageData.data[4 * i + 1] = origin[4 * i + 1] & 0xe0;
-            imageData.data[4 * i + 2] = origin[4 * i + 2] & 0xe0;
-            imageData.data[4 * i + 3] = 255;
-        }
-    }
-
-    // 皮肤过滤
-    function filterSkin(imageData, origin) {
-        var len = origin.length / 4;
-        var tmp;
-        for (var i = 0; i < len; i++) {
-            tmp = matchSkin(origin[4 * i + 0], origin[4 * i + 1], origin[4 * i + 2]);
-            imageData.data[4 * i + 0] = tmp[0];
-            imageData.data[4 * i + 1] = tmp[1];
-            imageData.data[4 * i + 2] = tmp[2];
-            tmp = [];
-        }
-    }
-
-    function isSkin(r, g, b) {
-        var hsv = rgb2Hsv(r, g, b);
-        var huemin = $('#huemin').val(),
-            huemax = $('#huemax').val(),
-            satmin = $('#satmin').val(),
-            satmax = $('#satmax').val(),
-            valmin = $('#valmin').val(),
-            valmax = $('#valmax').val();
-        if ((hsv[0] >= huemin && hsv[0] <= huemax)
-            && (hsv[1] >= satmin && hsv[1] <= satmax)
-            && (hsv[2] >= valmin && hsv[2] <= valmax)) {
-            return true;
-        }
-        return false;
-    }
-
-    function matchSkin(r, g, b) {
-        var hsv = rgb2Hsv(r, g, b);
-        var huemin = $('#huemin').val(),
-            huemax = $('#huemax').val(),
-            satmin = $('#satmin').val(),
-            satmax = $('#satmax').val(),
-            valmin = $('#valmin').val(),
-            valmax = $('#valmax').val();
-        if ((hsv[0] >= huemin && hsv[0] <= huemax)
-            && (hsv[1] >= satmin && hsv[1] <= satmax)
-            && (hsv[2] >= valmin && hsv[2] <= valmax)) {
-            return [r, g, b];
-        }
-        else {
-            return [0, 0, 0];
-        }
-    }
-
-    function similarColor (rgb1, rgb2) {
-        var huethrd = $('#huethrd').val(),
-            satthrd = $('#satthrd').val(),
-            valthrd = $('#valthrd').val();
-        var hsv1 = rgb2Hsv(rgb1[0], rgb1[1], rgb1[2]),
-            hsv2 = rgb2Hsv(rgb2[0], rgb2[1], rgb2[2]);
-        if (Math.abs(hsv1[0] - hsv2[0]) < huethrd
-            && Math.abs(hsv1[1] - hsv2[1]) < satthrd
-            && Math.abs(hsv1[2] - hsv2[2]) < valthrd) {
-            return true;
-        }
-        return false;
-    }
-
-    function rgb2Hsv(r, g, b){
-        r = r/255
-        g = g/255
-        b = b/255;
-        var max = Math.max(r, g, b)
-        var min = Math.min(r, g, b);
-        var h, s, v = max;
-        var d = max - min;
-        s = max === 0 ? 0 : d / max;
-        if (max === min){
-            h = 0;
-        }
-        else {
-            switch (max) {
-                case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-                case g: h = (b - r) / d + 2; break;
-                case b: h = (r - g) / d + 4; break;
-    	    }
-   		    h /= 6;
-   	    }
-        return [h, s, v];
     }
 })();

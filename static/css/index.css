@@ -7,3 +7,16 @@ h1 {
     padding: 5px 0;
     border-top: 1px dashed #000;
 }
+
+label {
+    vertical-align: baseline;
+}
+
+input {
+    vertical-align: bottom;
+}
+
+.direction {
+    font-size: 25px;
+    vertical-align: baseline;
+}

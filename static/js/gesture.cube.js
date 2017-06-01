@@ -39,7 +39,8 @@
         var style = '';
         if (direction === 'none') {
             return;
-            }
+        }
+        var rx = rotate.x % 360 < 0 ? rotate.x % 360 + 360 : rotate.x % 360;
         switch (direction) {
             case '上':
                 rotate.x += 90;
@@ -48,13 +49,13 @@
                 rotate.x -= 90;
                 break;
             case '左':
-                if (rotate.x % 360 === 90) {
+                if (rx === 90) {
                     rotate.z += 90;
                 }
-                else if (rotate.x % 360 === 180) {
+                else if (rx === 180) {
                     rotate.y += 90;
                 }
-                else if (rotate.x % 360 === 270) {
+                else if (rx === 270) {
                     rotate.z -= 90;
                 }
                 else {
@@ -62,13 +63,13 @@
                 }
                 break;
             case '右':
-                if (rotate.x % 360 === 90) {
+                if (rx === 90) {
                     rotate.z -= 90;
                 }
-                else if (rotate.x % 360 === 180) {
+                else if (rx === 180) {
                     rotate.y -= 90;
                 }
-                else if (rotate.x % 360 === 270) {
+                else if (rx === 270) {
                     rotate.z += 90;
                 }
                 else {
@@ -79,7 +80,6 @@
                 break;
         }
         style = 'rotateX(' + rotate.x + 'deg) rotateY(' + rotate.y + 'deg) rotateZ(' + rotate.z + 'deg)';
-        console.log(style)
         $('.piece-box').css({
             'transform': style
         });
@@ -154,16 +154,24 @@
             var angle = MCal.calAngle(moveArr[0], moveArr[moveArr.length - 1]);
             $('#smooth').text(angle);
             if (angle >= 315 || angle < 45) {
+                if (moveArr[0][0] < 15) {
                     direction = '右';
+                }
             }
             else if (angle >= 45 && angle < 135) {
-                direction = '上';
+                if (moveArr[0][1] > 20) {
+                    direction = '上';
+                }
             }
             else if (angle >= 135 && angle < 225) {
+                if (moveArr[0][0] > 25) {
                     direction = '左';
+                }
             }
             else {
-                direction = '下';
+                if (moveArr[0][1] < 10) {
+                    direction = '下';
+                }
             }
             // 设置手势检测的间隔。一个手势过后0.3s开始下一次数据记录
             startDetect = false;

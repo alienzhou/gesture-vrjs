@@ -4,159 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="stylesheet" href="/static/css/gesture-cube.css">
+	<script src="/static/js/zepto.1.2.0.min.js"></script>
     <title>Document</title>
-	<style>
-		body {
-			margin: 0;
-		}
-		/*容器*/
-		.container {
-			position: relative;
-			height: 100%;
-			-webkit-perspective: 1000px;
-			-moz-perspective: 1000px;
-			-ms-perspective: 1000px;
-			perspective: 1000px;
-		}
-		.piece-box {
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			width: 200px;
-			height: 200px;
-			margin: -100px -100px; 0 0;
-			perspective-origin: 50% 50%;
-			-webkit-transform-style: preserve-3d;
-	        -moz-transform-style: preserve-3d;
-	        -ms-transform-style: preserve-3d;
-	        transform-style: preserve-3d;
-			animation: boxRotate 10s infinite;
-	        -moz-animation: boxRotate 10s infinite; /* Firefox */
-	        -webkit-animation: boxRotate 10s infinite; /* Safari and Chrome */
-	        -o-animation: boxRotate 10s infinite; /* Opera */
-		}
-		/*piece通用样式*/
-		.piece {
-			position: absolute;
-			width: 200px;
-			height: 200px;
-			font-size: 30px;
-			line-height: 200px;
-			text-align: center;
-			color: #fff;
-			background: red;
-			opacity: 0.7;
-
-		}
-		.piece-1 {
-			background: red;
-	        -webkit-transform: rotateY(50deg) translateZ(100px);
-	        -ms-transform: rotateY(0deg) translateZ(100px);
-	        -o-transform: rotateY(0deg) translateZ(100px);
-	        transform: rotateY(0deg) translateZ(100px);
-
-		}
-		.piece-2 {
-			background: yellow;
-	        -webkit-transform: rotateY(0deg)  translateZ(-100px);
-	        -ms-transform: rotateY(0deg)  translateZ(-100px);
-	        -o-transform: rotateY(0deg)  translateZ(-100px);
-	        transform: rotateY(0deg)  translateZ(-100px);
-		}
-		.piece-3 {
-			background: black;
-	        -webkit-transform: translateX(-100px) rotateY(90deg);
-	        -ms-transform: translateX(-100px) rotateY(90deg);
-	        -o-transform: translateX(-100px) rotateY(90deg);
-	        transform: translateX(-100px) rotateY(90deg);
-		}
-		.piece-4 {
-			background: purple;
-	        -webkit-transform: translateX(100px) rotateY(90deg);
-	        -ms-transform: translateX(100px) rotateY(90deg);
-	        -o-transform: translateX(100px) rotateY(90deg);
-	        transform: translateX(100px) rotateY(90deg);
-		}
-		.piece-5 {
-			background: green;
-	        -webkit-transform: translateY(-100px) rotateX(90deg);
-	        -ms-transform: translateY(-100px) rotateX(90deg);
-	        -o-transform: translateY(-100px) rotateX(90deg);
-	        transform: translateY(-100px) rotateX(90deg);
-		}
-		.piece-6 {
-			background: blue;
-	        -webkit-transform: translateY(100px) rotateX(90deg);
-	        -ms-transform: translateY(100px) rotateX(90deg);
-	        -o-transform: translateY(100px) rotateX(90deg);
-	        transform: translateY(100px) rotateX(90deg);
-		}
-	    
-/*正方体旋转动画*/
-		@keyframes boxRotate
-	    {
-	    0%   {-webkit-transform: rotateX(0deg) rotateY(0deg););
-	        -ms-transform: rotateX(0deg) rotateY(0deg););
-	        -o-transform: rotateX(0deg) rotateY(0deg););
-	        transform: rotateX(0deg) rotateY(0deg););}
-	    50% {-webkit-transform: rotateX(0deg) rotateY(360deg);
-			-ms-transform: rotateX(0deg) rotateY(360deg);
-			-o-transform: rotateX(0deg) rotateY(360deg);
-			transform: rotateX(0deg) rotateY(360deg);}
-		100% {-webkit-transform: rotateX(360deg) rotateY(360deg);
-			-ms-transform: rotateX(360deg) rotateY(360deg);
-			-o-transform: rotateX(360deg) rotateY(360deg);
-			transform: rotateX(360deg) rotateY(360deg);}
-	    }
-	    /* Firefox */
-	    @-moz-keyframes boxRotate
-	    {
-	    0%   {-webkit-transform: rotateX(0deg) rotateY(0deg););
-	        -ms-transform: rotateX(0deg) rotateY(0deg););
-	        -o-transform: rotateX(0deg) rotateY(0deg););
-	        transform: rotateX(0deg) rotateY(0deg););}
-	    50% {-webkit-transform: rotateX(0deg) rotateY(360deg);
-			-ms-transform: rotateX(0deg) rotateY(360deg);
-			-o-transform: rotateX(0deg) rotateY(360deg);
-			transform: rotateX(0deg) rotateY(360deg);}
-		100% {-webkit-transform: rotateX(360deg) rotateY(360deg);
-			-ms-transform: rotateX(360deg) rotateY(360deg);
-			-o-transform: rotateX(360deg) rotateY(360deg);
-			transform: rotateX(360deg) rotateY(360deg);}
-	    }
-	    /* Safari and Chrome */
-	    @-webkit-keyframes boxRotate
-	    {
-	    0%   {-webkit-transform: rotateX(0deg) rotateY(0deg););
-	        -ms-transform: rotateX(0deg) rotateY(0deg););
-	        -o-transform: rotateX(0deg) rotateY(0deg););
-	        transform: rotateX(0deg) rotateY(0deg););}
-	    50% {-webkit-transform: rotateX(0deg) rotateY(360deg);
-			-ms-transform: rotateX(0deg) rotateY(360deg);
-			-o-transform: rotateX(0deg) rotateY(360deg);
-			transform: rotateX(0deg) rotateY(360deg);}
-		100% {-webkit-transform: rotateX(360deg) rotateY(360deg);
-			-ms-transform: rotateX(360deg) rotateY(360deg);
-			-o-transform: rotateX(360deg) rotateY(360deg);
-			transform: rotateX(360deg) rotateY(360deg);}
-	    }
-	    /* Opera */
-	    @-o-keyframes boxRotate
-	    {
-	    0%   {-webkit-transform: rotateX(0deg) rotateY(0deg););
-	        -ms-transform: rotateX(0deg) rotateY(0deg););
-	        -o-transform: rotateX(0deg) rotateY(0deg););
-	        transform: rotateX(0deg) rotateY(0deg););}
-	    50% {-webkit-transform: rotateX(0deg) rotateY(360deg);
-			-ms-transform: rotateX(0deg) rotateY(360deg);
-			-o-transform: rotateX(0deg) rotateY(360deg);
-			transform: rotateX(0deg) rotateY(360deg);}
-		100% {-webkit-transform: rotateX(360deg) rotateY(360deg);
-			-ms-transform: rotateX(360deg) rotateY(360deg);
-			-o-transform: rotateX(360deg) rotateY(360deg);
-			transform: rotateX(360deg) rotateY(360deg);}
-	    }
-	</style>
 </head>
 <body style="height: 100%">
 	<div class="container">
@@ -169,6 +19,81 @@
 			<div class="piece piece-6">下</div>
 		</div>
 	</div>
+	<div id="mask" class="mask"></div>
+	<div id="side-panel" class="side_panel"></div>
+	<div class="full_page">
+		<span id="setting-btn" class="setting_btn">设</br>置</span>
+        <div class="wrap">
+            <h2>差分阈值</h2>
+			<div>
+				<label class="lb_title" for="huethrd">色调</label>
+				<input id="huethrd" type="range" max="1" min="0" step="0.01" value="0.05">
+			</div>
+            <div>
+				<label class="lb_title" for="satthrd">饱和度</label>
+				<input id="satthrd" type="range" max="1" min="0" step="0.01" value="0.5">
+			</div>
+            <div>
+				<label class="lb_title" for="valthrd">透明度</label>
+				<input id="valthrd" type="range" max="1" min="0" step="0.01" value="0.18">
+			</div>
+        </div>
+        <div class="wrap">
+            <h2>皮肤过滤</h2>
+			<div>
+				<label class="lb_title">色调</label>
+				<label for="huemin">低</label>
+				<input id="huemin" type="range" max="1" min="0" step="0.01" value="0">
+            	<label for="huemax">高</label>
+				<input id="huemax" type="range" max="1" min="0" step="0.01" value="0.06">
+			</div>
+			<div>
+				<label class="lb_title">饱和度</label>
+				<label for="satmin">低</label>
+				<input id="satmin" type="range" max="1" min="0" step="0.01" value="0.15">
+            	<label for="satmax">高</label>
+				<input id="satmax" type="range" max="1" min="0" step="0.01" value="1">
+			</div>
+			<div>
+				<label class="lb_title">透明度</label>
+				<label for="valmin">低</label>
+				<input id="valmin" type="range" max="1" min="0" step="0.01" value="0.47">
+            	<label for="valmax">高</label>
+				<input id="valmax" type="range" max="1" min="0" step="0.01" value="1">
+			</div>
+        </div>
+        <div class="wrap">
+            <h2>初步处理</h2>
+			<div class="col clearfix">
+				<div class="col-2">
+					 <video id="video" autoplay width="200"></video>
+				</div>
+				<div class="col-2">
+					 <canvas id="canvas" style="width:200px;"></canvas>
+				</div>
+			</div>
+        </div>
+        <div class="wrap">
+            <h2>抽象处理</h2>
+			<div class="col clearfix">
+				<div class="col-2">
+                	<label class="lb_title" for="pix-amount">噪声阈值</label>
+					<input id="pix-amount" type="text" value="9">
+					<label>个</label>
+				</div>
+				<div class="col-2">
+					<label class="lb_title" for="interval">队列循环</label>
+					<input id="interval" type="text" value="600">
+					<label>ms</label>
+				</div>
+				<div class="col-2">
+					<label>平滑处理：</label><span id="smooth" class="direction">none</span>
+                	<label>方向判断：</label><span id="direction" class="direction">none</span>
+				</div>
+			</div>
+            <canvas id="canvas-point" style="width:200px;"></canvas>
+        </div>
+    </div>
 	<script src="/static/js/lib/img.process.js"></script>
     <script src="/static/js/lib/math.js"></script>
 	<script src="/static/js/gesture.cube.js"></script>

@@ -10,9 +10,11 @@
     var centerArr = [];                         // 中心点坐标
     var centerQuene = [];                       // 中心点队列
     var gestureFunc;                            // 手势触发的方法
+    var startDetect = true;                     // 是否开始手势轨迹检测（轨迹数据放至队列）
     var rotate = {
         x: 0,
-        y: 0
+        y: 0,
+        z: 0
     };
     var quene = {
         timer: undefined,                       // 队列循环器
@@ -46,15 +48,38 @@
                 rotate.x -= 90;
                 break;
             case '左':
-                rotate.y -= 90;
+                if (rotate.x % 360 === 90) {
+                    rotate.z += 90;
+                }
+                else if (rotate.x % 360 === 180) {
+                    rotate.y += 90;
+                }
+                else if (rotate.x % 360 === 270) {
+                    rotate.z -= 90;
+                }
+                else {
+                    rotate.y -= 90;
+                }
                 break;
             case '右':
-                rotate.y += 90;
+                if (rotate.x % 360 === 90) {
+                    rotate.z -= 90;
+                }
+                else if (rotate.x % 360 === 180) {
+                    rotate.y -= 90;
+                }
+                else if (rotate.x % 360 === 270) {
+                    rotate.z += 90;
+                }
+                else {
+                    rotate.y += 90;
+                }
                 break;
             default:
                 break;
-            }
-        style = 'rotateX(' + rotate.x + 'deg) rotateY(' + rotate.y + 'deg)';
+        }
+        style = 'rotateX(' + rotate.x + 'deg) rotateY(' + rotate.y + 'deg) rotateZ(' + rotate.z + 'deg)';
+        console.log(style)
         $('.piece-box').css({
             'transform': style
         });
@@ -125,21 +150,26 @@
             tmp = [];
             i++;
         }
-        if (moveArr.length > 2) {
+        if (moveArr.length > 5) {
             var angle = MCal.calAngle(moveArr[0], moveArr[moveArr.length - 1]);
             $('#smooth').text(angle);
             if (angle >= 315 || angle < 45) {
-                direction = '右';
+                    direction = '右';
             }
             else if (angle >= 45 && angle < 135) {
                 direction = '上';
             }
             else if (angle >= 135 && angle < 225) {
-                direction = '左';
+                    direction = '左';
             }
             else {
                 direction = '下';
             }
+            // 设置手势检测的间隔。一个手势过后0.3s开始下一次数据记录
+            startDetect = false;
+            setTimeout(function () {
+                startDetect = true;
+            }, 200)
         }
         else {
             $('#smooth').text('none');
@@ -192,7 +222,14 @@
 	        canvasPoint.height = height;
             drawCircle(center);
             // 放至队列
-            centerQuene.push([center[0], center[1]]);
+            if (startDetect) {
+                centerQuene.push([center[0], center[1]]);
+            }
+        }
+        else {
+            console.log(draw.width);
+            console.log(draw.height);
+            console.log("===========");
         }
 
         realBgPix = new Uint8ClampedArray(pixData.length);

@@ -9,7 +9,7 @@
 	<title>gesture-carousel</title>
 </head>
 <body style="height: 100%">
-    <div id="2d" class="container" style="display:none">
+    <div id="2d" class="container">
 	    <div class="piece-box">
 			<img class="piece piece-1" src="/static/images/1.jpg" alt="">
 			<img class="piece piece-2" src="/static/images/2.jpg" alt="">
@@ -114,7 +114,17 @@
                 	<label>方向判断：</label><span id="direction" class="direction">none</span>
 				</div>
 			</div>
-            <canvas id="canvas-point" style="width:200px;"></canvas>
+            <canvas id="canvas-point" style="width:80px;"></canvas>
+        </div>
+        <div class="wrap">
+            <h2>VR</h2>
+			<div class="col clearfix">
+				<div class="col-2">
+                	<label class="lb_title" for="pix-amount">VR模式</label>
+					<label>开启</label><input type="radio" name="model" value="1" />
+                    <label>关闭</label><input type="radio" checked="checked" name="model" value="0" />
+				</div>
+			</div>
         </div>
     </div>
     <script src="/static/js/lib/img.process.js"></script>

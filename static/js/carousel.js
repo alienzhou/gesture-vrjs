@@ -96,7 +96,31 @@
         quene.gap = $(this).val();
         // 延时绘制
         delayCal();
-    })
+    });
+
+    // VR开关
+    $('input[name="model"]').on('change', function () {
+        $('input[name="model"]').each(function () {
+            $(this).removeAttr('checked');
+        });
+        $(this).attr('checked', 'checked');
+        if (+$('input[name="model"][checked]').val() === 1) {
+            $('#2d').hide();
+            $('#3d').show();
+        }
+        else {
+            $('#3d').hide();
+            $('#2d').show();
+        }
+    });
+    if (+$('input[name="model"][checked]').val() === 1) {
+        $('#2d').hide();
+        $('#3d').show();
+    }
+    else {
+        $('#3d').hide();
+        $('#2d').show();
+    }
 
     function queneProcess() {
         var tmp = [];

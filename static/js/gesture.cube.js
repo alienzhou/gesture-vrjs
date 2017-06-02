@@ -126,7 +126,7 @@
         quene.gap = $(this).val();
         // 延时绘制
         delayCal();
-    })
+    });
 
     function queneProcess() {
         var tmp = [];

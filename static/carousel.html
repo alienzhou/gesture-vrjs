@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/static/css/carousel.css">
+	<script src="/static/js/zepto.1.2.0.min.js"></script>
+	<title>gesture-carousel</title>
+</head>
+<body style="height: 100%">
+    <div id="2d" class="container" style="display:none">
+	    <div class="piece-box">
+			<img class="piece piece-1" src="/static/images/1.jpg" alt="">
+			<img class="piece piece-2" src="/static/images/2.jpg" alt="">
+			<img class="piece piece-3" src="/static/images/3.jpg" alt="">
+			<img class="piece piece-4" src="/static/images/4.jpg" alt="">
+			<img class="piece piece-5" src="/static/images/5.jpg" alt="">
+			<img class="piece piece-6" src="/static/images/6.jpg" alt="">
+	    </div>
+    </div>
+    <div id="3d" class="stage clearfix">
+        <div class="left_eye">
+            <div class="piece-box">
+			    <img class="piece piece-1" src="/static/images/1.jpg" alt="">
+			    <img class="piece piece-2" src="/static/images/2.jpg" alt="">
+			    <img class="piece piece-3" src="/static/images/3.jpg" alt="">
+			    <img class="piece piece-4" src="/static/images/4.jpg" alt="">
+			    <img class="piece piece-5" src="/static/images/5.jpg" alt="">
+			    <img class="piece piece-6" src="/static/images/6.jpg" alt="">
+	        </div>
+        </div>
+        <div class="right_eye">
+            <div class="piece-box">
+			    <img class="piece piece-1" src="/static/images/1.jpg" alt="">
+			    <img class="piece piece-2" src="/static/images/2.jpg" alt="">
+			    <img class="piece piece-3" src="/static/images/3.jpg" alt="">
+			    <img class="piece piece-4" src="/static/images/4.jpg" alt="">
+			    <img class="piece piece-5" src="/static/images/5.jpg" alt="">
+			    <img class="piece piece-6" src="/static/images/6.jpg" alt="">
+	        </div>
+        </div>
+    </div>
+    <div id="mask" class="mask"></div>
+	<div class="full_page">
+		<span id="setting-btn" class="setting_btn">设</br>置</span>
+        <div class="wrap">
+            <h2>差分阈值</h2>
+			<div>
+				<label class="lb_title" for="huethrd">色调</label>
+				<input id="huethrd" type="range" max="1" min="0" step="0.01" value="0.05">
+			</div>
+            <div>
+				<label class="lb_title" for="satthrd">饱和度</label>
+				<input id="satthrd" type="range" max="1" min="0" step="0.01" value="0.5">
+			</div>
+            <div>
+				<label class="lb_title" for="valthrd">透明度</label>
+				<input id="valthrd" type="range" max="1" min="0" step="0.01" value="0.18">
+			</div>
+        </div>
+        <div class="wrap">
+            <h2>皮肤过滤</h2>
+			<div>
+				<label class="lb_title">色调</label>
+				<label for="huemin">低</label>
+				<input id="huemin" type="range" max="1" min="0" step="0.01" value="0">
+            	<label for="huemax">高</label>
+				<input id="huemax" type="range" max="1" min="0" step="0.01" value="0.06">
+			</div>
+			<div>
+				<label class="lb_title">饱和度</label>
+				<label for="satmin">低</label>
+				<input id="satmin" type="range" max="1" min="0" step="0.01" value="0.15">
+            	<label for="satmax">高</label>
+				<input id="satmax" type="range" max="1" min="0" step="0.01" value="1">
+			</div>
+			<div>
+				<label class="lb_title">透明度</label>
+				<label for="valmin">低</label>
+				<input id="valmin" type="range" max="1" min="0" step="0.01" value="0.47">
+            	<label for="valmax">高</label>
+				<input id="valmax" type="range" max="1" min="0" step="0.01" value="1">
+			</div>
+        </div>
+        <div class="wrap">
+            <h2>初步处理</h2>
+			<div class="col clearfix">
+				<div class="col-2">
+					 <video id="video" autoplay width="200"></video>
+				</div>
+				<div class="col-2">
+					 <canvas id="canvas" style="width:200px;"></canvas>
+				</div>
+			</div>
+        </div>
+        <div class="wrap">
+            <h2>抽象处理</h2>
+			<div class="col clearfix">
+				<div class="col-2">
+                	<label class="lb_title" for="pix-amount">噪声阈值</label>
+					<input id="pix-amount" type="text" value="9">
+					<label>个</label>
+				</div>
+				<div class="col-2">
+					<label class="lb_title" for="interval">队列循环</label>
+					<input id="interval" type="text" value="300">
+					<label>ms</label>
+				</div>
+				<div class="col-2">
+					<label>平滑处理：</label><span id="smooth" class="direction">none</span>
+				</div>
+				<div class="col-2">
+                	<label>方向判断：</label><span id="direction" class="direction">none</span>
+				</div>
+			</div>
+            <canvas id="canvas-point" style="width:200px;"></canvas>
+        </div>
+    </div>
+    <script src="/static/js/lib/img.process.js"></script>
+    <script src="/static/js/lib/math.js"></script>
+	<script src="/static/js/carousel.js"></script>
+</body>
+</html>

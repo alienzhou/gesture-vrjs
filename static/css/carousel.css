@@ -1,0 +1,265 @@
+body {
+    margin: 0;
+    background: rgba(0, 0, 0, .9);
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+*, *::after, *::before {
+    box-sizing: border-box;
+}
+
+.clearfix:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+.clearfix {
+    *+height: 1%;
+}
+
+.mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, .1);
+    transition: all 0.1s;
+}
+
+.mask_show {
+    z-index: 5;
+    background: rgba(0, 0, 0, .8);
+}
+
+.full_page {
+    position: absolute;
+    top: 0;
+    left: -40%;
+    z-index: 10;
+    padding: 20px;
+    width: 40%;
+    height: 100%;
+    background: #eeeeee;
+    transition: all 0.2s;
+}
+
+.full_page_show {
+    left: 0;
+    transform: translateZ(0);
+}
+
+.full_page h2 {
+    margin: 0 0 15px 0;
+    font-size: 20px;
+    line-height: 1;
+}
+
+.full_page h2:before {
+    content: '';
+    display: inline-block;
+    vertical-align: bottom;
+    margin-right: 6px;
+    height: 16px;
+    border-left: 4px solid #077bbd;
+}
+
+.full_page .setting_btn {
+    position: absolute;
+    top: 30%;
+    right: -40px;
+    height: 80px;
+    width: 40px;
+    margin-top: -40px;
+    padding-top: 20px;
+    padding-left: 8px;
+    border-top-right-radius: 40px;
+    border-bottom-right-radius: 40px;
+    font-size: 14px;
+    line-height: 1.4;
+    color: #fff;
+    background: #077bbd;
+}
+
+.full_page .setting_btn:hover {
+    cursor: pointer;
+    background: #158ccf;
+}
+
+.full_page .wrap {
+    margin: 0 0 25px 0;
+}
+
+.full_page .wrap .col-2 {
+    float: left;
+    width: 50%;
+}
+
+.full_page label {
+    margin-right: 6px;
+    font-size: 14px;
+    line-height: 26px;
+    color: #666;
+}
+
+.full_page .lb_title {
+    display: inline-block;
+    width: 65px;
+}
+
+.full_page input[type='range'] {
+    vertical-align: bottom;
+}
+
+.full_page input[type='text'] {
+    width: 50px;
+}
+
+.stage{
+    vertical-align: center;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    box-sizing: border-box;
+    /*-moz-transform-origin: center 100% -150px;*/
+}
+
+.left_eye{
+    float: left;
+    position: relative;
+    transform-style: preserve-3d;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    perspective: 3000px;
+    perspective-origin: calc(50% - 130px) 20%;
+    box-sizing: border-box;
+    border-right: 1px dashed rgba(255,255,255,0.4);
+    transform: translateZ(-170px);
+}
+
+.right_eye{
+    float: left;
+    position: relative;
+    transform-style: preserve-3d;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    perspective: 3000px;
+    perspective-origin: calc(50% + 130px) 20%;
+    box-sizing: border-box;
+    transform: translateZ(-170px);
+}
+
+/*容器*/
+.container {
+	-webkit-perspective: 1000px;
+	-moz-perspective: 1000px;
+	-ms-perspective: 1000px;
+	perspective: 1000px;
+}
+/*piece盒子*/
+.piece-box {
+    position: absolute;
+	top: 60%;
+	left: 50%;
+	width: 200px;
+	height: 200px;
+	margin: -100px 0 0 -100px;
+	perspective-origin: 50% 50%;
+	-webkit-transform-style: preserve-3d;
+	-moz-transform-style: preserve-3d;
+	-ms-transform-style: preserve-3d;
+	transform-style: preserve-3d;
+    transition: all .4s;
+}
+
+/*piece通用样式*/
+.piece {
+	box-sizing: border-box;
+	position: absolute;
+	width: 200px;
+	height: 200px;
+	border: 1px solid rgba(0, 0, 0, .1);
+	opacity: .95;
+}
+.piece-1 {
+	-webkit-transform: rotateY(0deg) translateZ(190px);
+	-ms-transform: rotateY(0deg) translateZ(190px);
+	-o-transform: rotateY(0deg) translateZ(190px);
+	transform: rotateY(0deg) translateZ(190px);
+	animation: piece1Rotate 5s 5s;
+	-moz-animation: piece1Rotate 5s 5s; /* Firefox */
+	-webkit-animation: piece1Rotate 5s 5s; /* Safari and Chrome */
+	-o-animation: piece1Rotate 5s 5s; /* Opera */
+	-webkit-animation-fill-mode: forwards; /* Chrome, Safari, Opera */
+   	animation-fill-mode: forwards;
+
+}
+.piece-2 {
+	-webkit-transform: rotateY(60deg) translateZ(190px);
+	-ms-transform: rotateY(60deg) translateZ(190px);
+	-o-transform: rotateY(60deg) translateZ(190px);
+	transform: rotateY(60deg) translateZ(190px);
+	animation: piece2Rotate 5s 5s;
+	-moz-animation: piece2Rotate 5s 5s; /* Firefox */
+	-webkit-animation: piece2Rotate 5s 5s; /* Safari and Chrome */
+	-o-animation: piece2Rotate 5s 5s; /* Opera */
+	-webkit-animation-fill-mode: forwards; /* Chrome, Safari, Opera */
+   	animation-fill-mode: forwards;
+}
+.piece-3 {
+	-webkit-transform: rotateY(120deg) translateZ(190px);
+	-ms-transform: rotateY(120deg) translateZ(190px);
+	-o-transform: rotateY(120deg) translateZ(190px);
+	transform: rotateY(120deg) translateZ(190px);
+	animation: piece3Rotate 5s 5s;
+	-moz-animation: piece3Rotate 5s 5s; /* Firefox */
+	-webkit-animation: piece3Rotate 5s 5s; /* Safari and Chrome */
+	-o-animation: piece3Rotate 5s 5s; /* Opera */
+	-webkit-animation-fill-mode: forwards; /* Chrome, Safari, Opera */
+   	animation-fill-mode: forwards;
+}
+.piece-4 {
+	-webkit-transform: rotateY(180deg) translateZ(190px);
+	-ms-transform: rotateY(180deg) translateZ(190px);
+	-o-transform: rotateY(180deg) translateZ(190px);
+	transform: rotateY(180deg) translateZ(190px);
+	animation: piece4Rotate 5s 5s;
+	-moz-animation: piece4Rotate 5s 5s; /* Firefox */
+	-webkit-animation: piece4Rotate 5s 5s; /* Safari and Chrome */
+	-o-animation: piece4Rotate 5s 5s; /* Opera */
+	-webkit-animation-fill-mode: forwards; /* Chrome, Safari, Opera */
+    animation-fill-mode: forwards;
+}
+.piece-5 {
+	-webkit-transform: rotateY(240deg) translateZ(190px);
+	-ms-transform: rotateY(240deg) translateZ(190px);
+	-o-transform: rotateY(240deg) translateZ(190px);
+	transform: rotateY(240deg) translateZ(190px);
+	animation: piece5Rotate 5s 5s;
+	-moz-animation: piece5Rotate 5s 5s; /* Firefox */
+	-webkit-animation: piece5Rotate 5s 5s; /* Safari and Chrome */
+	-o-animation: piece5Rotate 5s 5s; /* Opera */
+	-webkit-animation-fill-mode: forwards; /* Chrome, Safari, Opera */
+   	animation-fill-mode: forwards;
+}
+.piece-6 {
+	-webkit-transform: rotateY(300deg) translateZ(190px);
+	-ms-transform: rotateY(300deg) translateZ(190px);
+	-o-transform: rotateY(300deg) translateZ(190px);
+	transform: rotateY(300deg) translateZ(190px);
+	animation: piece6Rotate 5s 5s;
+	-moz-animation: piece6Rotate 5s 5s; /* Firefox */
+	-webkit-animation: piece6Rotate 5s 5s; /* Safari and Chrome */
+	-o-animation: piece6Rotate 5s 5s; /* Opera */
+	-webkit-animation-fill-mode: forwards; /* Chrome, Safari, Opera */
+   	animation-fill-mode: forwards;
+}

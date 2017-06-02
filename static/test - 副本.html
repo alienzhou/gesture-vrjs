@@ -3,7 +3,9 @@
 <head>
     <meta charset="utf-8">
     <title>alienUI</title>
-    <script src="/static/js/zepto.1.2.0.min.js"></script>
+    <link href="css/alien-ui.css" rel="stylesheet" type="text/css" />
+    <script src="js/jquery.js"></script>
+    <script src="js/d3.min.js"></script>
     <style type="text/css">
         html{
             height: 100%;
@@ -78,7 +80,7 @@
             width: 200px;
             padding: 30px;
             box-sizing:border-box;
-            transform:translateZ(-100px) translateX(-100px)  rotateY(90deg) rotateY(0deg);
+            transform: rotateY(90deg) rotateY(0deg);
             -moz-transform-origin: 0% center;
             transition: 1s ease-in-out;
         }
@@ -215,16 +217,10 @@
                 $(this).css('transform','rotateY('+$('#deg').val()+'deg) translateZ(-200px)');
             });
             $('.panel-left').each(function(){
-                $(this).css('transform','translateZ(-100px) translateX(-100px) rotateY(90deg) rotateY('+$('#deg').val()+'deg)');
+                $(this).css('transform','rotateY(90deg) rotateY('+$('#deg').val()+'deg)');
             });
         }
         init();
-
-        // setInterval(function () {
-        //     $('#deg').val(+$('#deg').val() + 30);
-        //     changeValue();
-        // }, 2000);
     </script>
-    <script src="/static/js/vrpage.js"></script>
 </body>
 </html>

@@ -17,10 +17,6 @@ body {
     visibility: hidden;
 }
 
-.clearfix {
-    *+height: 1%;
-}
-
 .mask {
     position: absolute;
     top: 0;
@@ -126,7 +122,6 @@ body {
     overflow: hidden;
     position: relative;
     box-sizing: border-box;
-    /*-moz-transform-origin: center 100% -150px;*/
 }
 
 .left_eye{
@@ -158,7 +153,6 @@ body {
     transform: translateZ(-170px);
 }
 
-/*容器*/
 .container {
     height: 100%;
 	-webkit-perspective: 1000px;
@@ -167,7 +161,7 @@ body {
 	perspective: 1000px;
     perspective-origin: 50% 20%;
 }
-/*piece盒子*/
+
 .piece-box {
     position: absolute;
 	top: 60%;
@@ -183,7 +177,6 @@ body {
     transition: all .4s;
 }
 
-/*piece通用样式*/
 .piece {
 	box-sizing: border-box;
 	position: absolute;
@@ -193,75 +186,33 @@ body {
 	opacity: .95;
 }
 .piece-1 {
-	-webkit-transform: rotateY(0deg) translateZ(190px);
-	-ms-transform: rotateY(0deg) translateZ(190px);
-	-o-transform: rotateY(0deg) translateZ(190px);
 	transform: rotateY(0deg) translateZ(190px);
 	animation: piece1Rotate 5s 5s;
-	-moz-animation: piece1Rotate 5s 5s; /* Firefox */
-	-webkit-animation: piece1Rotate 5s 5s; /* Safari and Chrome */
-	-o-animation: piece1Rotate 5s 5s; /* Opera */
-	-webkit-animation-fill-mode: forwards; /* Chrome, Safari, Opera */
    	animation-fill-mode: forwards;
 
 }
 .piece-2 {
-	-webkit-transform: rotateY(60deg) translateZ(190px);
-	-ms-transform: rotateY(60deg) translateZ(190px);
-	-o-transform: rotateY(60deg) translateZ(190px);
 	transform: rotateY(60deg) translateZ(190px);
 	animation: piece2Rotate 5s 5s;
-	-moz-animation: piece2Rotate 5s 5s; /* Firefox */
-	-webkit-animation: piece2Rotate 5s 5s; /* Safari and Chrome */
-	-o-animation: piece2Rotate 5s 5s; /* Opera */
-	-webkit-animation-fill-mode: forwards; /* Chrome, Safari, Opera */
    	animation-fill-mode: forwards;
 }
 .piece-3 {
-	-webkit-transform: rotateY(120deg) translateZ(190px);
-	-ms-transform: rotateY(120deg) translateZ(190px);
-	-o-transform: rotateY(120deg) translateZ(190px);
 	transform: rotateY(120deg) translateZ(190px);
 	animation: piece3Rotate 5s 5s;
-	-moz-animation: piece3Rotate 5s 5s; /* Firefox */
-	-webkit-animation: piece3Rotate 5s 5s; /* Safari and Chrome */
-	-o-animation: piece3Rotate 5s 5s; /* Opera */
-	-webkit-animation-fill-mode: forwards; /* Chrome, Safari, Opera */
    	animation-fill-mode: forwards;
 }
 .piece-4 {
-	-webkit-transform: rotateY(180deg) translateZ(190px);
-	-ms-transform: rotateY(180deg) translateZ(190px);
-	-o-transform: rotateY(180deg) translateZ(190px);
 	transform: rotateY(180deg) translateZ(190px);
 	animation: piece4Rotate 5s 5s;
-	-moz-animation: piece4Rotate 5s 5s; /* Firefox */
-	-webkit-animation: piece4Rotate 5s 5s; /* Safari and Chrome */
-	-o-animation: piece4Rotate 5s 5s; /* Opera */
-	-webkit-animation-fill-mode: forwards; /* Chrome, Safari, Opera */
     animation-fill-mode: forwards;
 }
 .piece-5 {
-	-webkit-transform: rotateY(240deg) translateZ(190px);
-	-ms-transform: rotateY(240deg) translateZ(190px);
-	-o-transform: rotateY(240deg) translateZ(190px);
 	transform: rotateY(240deg) translateZ(190px);
 	animation: piece5Rotate 5s 5s;
-	-moz-animation: piece5Rotate 5s 5s; /* Firefox */
-	-webkit-animation: piece5Rotate 5s 5s; /* Safari and Chrome */
-	-o-animation: piece5Rotate 5s 5s; /* Opera */
-	-webkit-animation-fill-mode: forwards; /* Chrome, Safari, Opera */
    	animation-fill-mode: forwards;
 }
 .piece-6 {
-	-webkit-transform: rotateY(300deg) translateZ(190px);
-	-ms-transform: rotateY(300deg) translateZ(190px);
-	-o-transform: rotateY(300deg) translateZ(190px);
 	transform: rotateY(300deg) translateZ(190px);
 	animation: piece6Rotate 5s 5s;
-	-moz-animation: piece6Rotate 5s 5s; /* Firefox */
-	-webkit-animation: piece6Rotate 5s 5s; /* Safari and Chrome */
-	-o-animation: piece6Rotate 5s 5s; /* Opera */
-	-webkit-animation-fill-mode: forwards; /* Chrome, Safari, Opera */
    	animation-fill-mode: forwards;
 }

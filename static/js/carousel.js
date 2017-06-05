@@ -144,7 +144,9 @@
             tmp = [];
             i++;
         }
-        if (moveArr.length > 5) {
+        // 运动数组阈值判断（运动点个数，横移距离）
+        if (moveArr.length > 2
+                && Math.abs(moveArr[0][0] - moveArr[moveArr.length - 1][0]) > 10) {
             var angle = MCal.calAngle(moveArr[0], moveArr[moveArr.length - 1]);
             $('#smooth').text(angle);
             if (angle >= 315 || angle < 45) {
@@ -153,11 +155,11 @@
             else if (angle >= 135 && angle < 225) {
                 direction = '左';
             }
-            // 设置手势检测的间隔。一个手势过后0.3s开始下一次数据记录
+            // 设置手势检测的间隔。一个手势过后25ms开始下一次数据记录
             startDetect = false;
             setTimeout(function () {
                 startDetect = true;
-            }, 200);
+            }, 25);
         }
         else {
             $('#smooth').text('none');

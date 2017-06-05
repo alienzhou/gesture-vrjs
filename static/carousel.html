@@ -44,6 +44,16 @@
     <div id="mask" class="mask"></div>
 	<div class="full_page">
 		<span id="setting-btn" class="setting_btn">设</br>置</span>
+		<div class="wrap">
+            <h2>VR</h2>
+			<div class="col clearfix">
+				<div class="col-2">
+                	<label class="lb_title" for="pix-amount">VR模式</label>
+					<label>开启</label><input type="radio" name="model" value="1" />
+                    <label>关闭</label><input type="radio" checked="checked" name="model" value="0" />
+				</div>
+			</div>
+        </div>
         <div class="wrap">
             <h2>差分阈值</h2>
 			<div>
@@ -99,7 +109,7 @@
 			<div class="col clearfix">
 				<div class="col-2">
                 	<label class="lb_title" for="pix-amount">噪声阈值</label>
-					<input id="pix-amount" type="text" value="9">
+					<input id="pix-amount" type="text" value="25">
 					<label>个</label>
 				</div>
 				<div class="col-2">
@@ -115,16 +125,6 @@
 				</div>
 			</div>
             <canvas id="canvas-point" style="width:80px;"></canvas>
-        </div>
-        <div class="wrap">
-            <h2>VR</h2>
-			<div class="col clearfix">
-				<div class="col-2">
-                	<label class="lb_title" for="pix-amount">VR模式</label>
-					<label>开启</label><input type="radio" name="model" value="1" />
-                    <label>关闭</label><input type="radio" checked="checked" name="model" value="0" />
-				</div>
-			</div>
         </div>
     </div>
     <script src="/static/js/lib/img.process.js"></script>

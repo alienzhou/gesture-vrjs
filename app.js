@@ -14,10 +14,11 @@ app.get('/', function (req, res) {
 });
 
 app.get('/*', function (req, res) {
-    if (req.originalUrl === '/vrsk/view' && req.useragent.isMobile) {
-        res.sendFile(__dirname + '/static/' + req.originalUrl + 'M.html');
+    console.log(req.useragent.isMobile);
+    if (req.path === '/vrsk/view' && req.useragent.isMobile) {
+        res.sendFile(__dirname + '/static/' + req.path + 'M.html');
     }
-    res.sendFile(__dirname + '/static/' + req.originalUrl + '.html');
+    res.sendFile(__dirname + '/static/' + req.path + '.html');
 });
 
 io.on('connection', function (socket) {

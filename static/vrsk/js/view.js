@@ -9,6 +9,9 @@
     };
 
     socket.on('gesture', function (gtr) {
+        if (getQuery('id') !== gtr.id) {
+            return;
+        }
         gestureFunc && gestureFunc(gtr.direction);
     });
 
@@ -47,6 +50,24 @@
         $('.piece-box').css({
             'transform': style
         });
+    }
+
+    function getQuery(key) {
+        var search = window.location.search;
+        var tmp;
+        var val;
+        if (search.length === 0) {
+            return null;
+        }
+        searchArr = search.slice(1, search.length).split('&');
+        for (var i = searchArr.length - 1; i >= 0; i--) {
+            tmp = searchArr[i].split('=');
+            if (tmp[0] === key) {
+                val = tmp[1];
+                break;
+            }
+        }
+        return val;
     }
 
     $('#setting-btn').on('click', function () {

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+    <style>
+        body {
+            padding: 25px 50px;
+        }
+    </style>
+</head>
+<body>
+    <h1>socket</h1>
+    <label>配对编号</label>
+    <input id="id-input" value="alienzhou">
+    <button id="btn">确定</button>
+    <script>
+        $('#btn').on('click', function () {
+            $('#list').css({
+                display: 'block'
+            }).animate({
+                opacity: 1
+            }).find('a').each(function () {
+                var href = $(this).attr('href') + '?id=' + encodeURIComponent($('#id-input').val());
+                $(this).attr('href', href);
+            });
+        });
+    </script>
+    <ul id="list" style="display:none;opacity:0">
+        <li>
+            <a href="/vrsk/gesture" target="_blank">手势操控</a>
+        </li>
+        <li>
+            <a href="/vrsk/view" target="_blank">VR场景</a>
+        </li>
+    </ul>
+</body>
+</html>

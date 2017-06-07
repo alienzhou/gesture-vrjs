@@ -56,9 +56,27 @@
             'transform': style
         });
         socket.emit('gesture', {
-            id: 0,
+            id: getQuery('id'),
             direction: direction
         });
+    }
+
+    function getQuery(key) {
+        var search = window.location.search;
+        var tmp;
+        var val;
+        if (search.length === 0) {
+            return null;
+        }
+        searchArr = search.slice(1, search.length).split('&');
+        for (var i = searchArr.length - 1; i >= 0; i--) {
+            tmp = searchArr[i].split('=');
+            if (tmp[0] === key) {
+                val = tmp[1];
+                break;
+            }
+        }
+        return val;
     }
 
     // 延时绘制

@@ -132,7 +132,7 @@ body {
     height: 100%;
     overflow: hidden;
     position: relative;
-    perspective: 1000px;
+    perspective: 3000px;
     perspective-origin: calc(50% - 130px) 20%;
     box-sizing: border-box;
     border-right: 1px dashed rgba(255,255,255,0.4);
@@ -147,7 +147,7 @@ body {
     height: 100%;
     overflow: hidden;
     position: relative;
-    perspective: 1000px;
+    perspective: 3000px;
     perspective-origin: calc(50% + 130px) 20%;
     box-sizing: border-box;
     transform: translateZ(-170px);

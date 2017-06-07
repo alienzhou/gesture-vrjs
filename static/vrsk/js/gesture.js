@@ -1,4 +1,5 @@
 (function(){
+    var socket = io();
     var video = document.getElementById('video');
     var canvas = document.getElementById('canvas');
     var canvasPoint = document.getElementById('canvas-point');
@@ -40,50 +41,24 @@
         if (direction === 'none') {
             return;
         }
-        var rx = rotate.x % 360 < 0 ? rotate.x % 360 + 360 : rotate.x % 360;
         switch (direction) {
-            case '上':
-                rotate.x += 90;
-                break;
-            case '下':
-                rotate.x -= 90;
-                break;
             case '左':
-                if (rx === 90) {
-                    rotate.z += 90;
-                }
-                else if (rx === 180) {
-                    rotate.y += 90;
-                }
-                else if (rx === 270) {
-                    rotate.z -= 90;
-                }
-                else {
-                    rotate.y -= 90;
-                }
+                rotate.y -= 60;
                 break;
             case '右':
-                if (rx === 90) {
-                    rotate.z -= 90;
-                }
-                else if (rx === 180) {
-                    rotate.y -= 90;
-                }
-                else if (rx === 270) {
-                    rotate.z += 90;
-                }
-                else {
-                    rotate.y += 90;
-                }
+                rotate.y += 60;
                 break;
             default:
                 break;
         }
-        style = 'rotateX(' + rotate.x + 'deg) rotateY(' + rotate.y + 'deg) rotateZ(' + rotate.z + 'deg)';
+        style = 'rotateY(' + rotate.y + 'deg)';
         $('.piece-box').css({
             'transform': style
         });
-        $('#side-panel').append('<span>' + direction + '</span>');
+        socket.emit('gesture', {
+            id: 0,
+            direction: direction
+        });
     }
 
     // 延时绘制
@@ -128,6 +103,30 @@
         delayCal();
     });
 
+    // VR开关
+    $('input[name="model"]').on('change', function () {
+        $('input[name="model"]').each(function () {
+            $(this).removeAttr('checked');
+        });
+        $(this).attr('checked', 'checked');
+        if (+$('input[name="model"][checked]').val() === 1) {
+            $('#2d').hide();
+            $('#3d').show();
+        }
+        else {
+            $('#3d').hide();
+            $('#2d').show();
+        }
+    });
+    if (+$('input[name="model"][checked]').val() === 1) {
+        $('#2d').hide();
+        $('#3d').show();
+    }
+    else {
+        $('#3d').hide();
+        $('#2d').show();
+    }
+
     function queneProcess() {
         var tmp = [];
         var moveArr = [];
@@ -150,34 +149,22 @@
             tmp = [];
             i++;
         }
-        if (moveArr.length > 5) {
+        // 运动数组阈值判断（运动点个数，横移距离）
+        if (moveArr.length > 2
+                && Math.abs(moveArr[0][0] - moveArr[moveArr.length - 1][0]) > 10) {
             var angle = MCal.calAngle(moveArr[0], moveArr[moveArr.length - 1]);
             $('#smooth').text(angle);
             if (angle >= 315 || angle < 45) {
-                if (moveArr[0][0] < 15) {
-                    direction = '右';
-                }
-            }
-            else if (angle >= 45 && angle < 135) {
-                if (moveArr[0][1] > 20) {
-                    direction = '上';
-                }
+                direction = '右';
             }
             else if (angle >= 135 && angle < 225) {
-                if (moveArr[0][0] > 25) {
-                    direction = '左';
-                }
+                direction = '左';
             }
-            else {
-                if (moveArr[0][1] < 10) {
-                    direction = '下';
-                }
-            }
-            // 设置手势检测的间隔。一个手势过后0.3s开始下一次数据记录
+            // 设置手势检测的间隔。一个手势过后25ms开始下一次数据记录
             startDetect = false;
             setTimeout(function () {
                 startDetect = true;
-            }, 200)
+            }, 25);
         }
         else {
             $('#smooth').text('none');

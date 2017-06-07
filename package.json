@@ -13,6 +13,8 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.15.3",
-    "mime": "^1.3.6"
+    "express-useragent": "^1.0.7",
+    "mime": "^1.3.6",
+    "socket.io": "^2.0.2"
   }
 }

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/static/vrsk/css/style.m.css">
+	<script src="/static/js/zepto.1.2.0.min.js"></script>
+	<script src="/node_modules/socket.io-client/dist/socket.io.js"></script>
+	<title>gesture-carousel</title>
+</head>
+<body style="height: 100%">
+    <div id="2d" class="container">
+	    <div class="piece-box">
+			<img class="piece piece-1" src="/static/images/1.jpg" alt="">
+			<img class="piece piece-2" src="/static/images/2.jpg" alt="">
+			<img class="piece piece-3" src="/static/images/3.jpg" alt="">
+			<img class="piece piece-4" src="/static/images/4.jpg" alt="">
+			<img class="piece piece-5" src="/static/images/5.jpg" alt="">
+			<img class="piece piece-6" src="/static/images/6.jpg" alt="">
+	    </div>
+    </div>
+    <div id="3d" class="stage clearfix">
+        <div class="left_eye">
+            <div class="piece-box">
+			    <img class="piece piece-1" src="/static/images/1.jpg" alt="">
+			    <img class="piece piece-2" src="/static/images/2.jpg" alt="">
+			    <img class="piece piece-3" src="/static/images/3.jpg" alt="">
+			    <img class="piece piece-4" src="/static/images/4.jpg" alt="">
+			    <img class="piece piece-5" src="/static/images/5.jpg" alt="">
+			    <img class="piece piece-6" src="/static/images/6.jpg" alt="">
+	        </div>
+        </div>
+        <div class="right_eye">
+            <div class="piece-box">
+			    <img class="piece piece-1" src="/static/images/1.jpg" alt="">
+			    <img class="piece piece-2" src="/static/images/2.jpg" alt="">
+			    <img class="piece piece-3" src="/static/images/3.jpg" alt="">
+			    <img class="piece piece-4" src="/static/images/4.jpg" alt="">
+			    <img class="piece piece-5" src="/static/images/5.jpg" alt="">
+			    <img class="piece piece-6" src="/static/images/6.jpg" alt="">
+	        </div>
+        </div>
+    </div>
+    <div id="mask" class="mask"></div>
+	<div class="full_page">
+		<span id="setting-btn" class="setting_btn">设</br>置</span>
+		<div class="wrap">
+            <h2>VR</h2>
+			<div class="col clearfix">
+				<div class="col-2">
+                	<label class="lb_title" for="pix-amount">VR模式</label>
+					<label>开启</label><input type="radio" name="model" value="1" />
+                    <label>关闭</label><input type="radio" checked="checked" name="model" value="0" />
+				</div>
+			</div>
+        </div>
+    </div>
+	<script src="/static/vrsk/js/view.js"></script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body {
+            position: relative;
+            margin: 0;
+            padding: 0;
+            background: #000;
+        }
+        
+        .stage {
+            position: absolute;
+	        top: 50%;
+	        left: 50%;
+	        margin: -100px 0 0 -100px;
+            width: 160px;
+	        height: 200px;
+            perspective: 800px;
+            transform: rotateX(-10deg);
+            transform-style: preserve-3d;
+            transition: all .4s;
+        }
+
+        .stage .plane  {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            margin-top: -600px;
+            margin-left: -700px;
+            height: 1400px;
+            width: 1400px;
+            background: -webkit-radial-gradient(center center,700px 700px,rgba(255,255,255,.5),rgba(0,0,0,0));
+            transform: rotateX(90deg);
+        }
+
+        .stage .piece {
+	        box-sizing: border-box;
+            border-radius: 5px;
+            border: 3px solid #ff9842;
+	        position: absolute;
+	        width: 160px;
+	        height: 200px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, .8);
+            transform-style: preserve-3d;
+            -webkit-box-reflect: below 10px -webkit-linear-gradient(top,rgba(0,0,0,0) 60%,rgba(0,0,0,.3) 100%);
+        }
+        .stage .piece-1 {
+	        transform: rotateY(0deg) translateZ(330px);
+        }
+        .stage .piece-2 {
+	        transform: rotateY(36deg) translateZ(330px);
+        }
+        .stage .piece-3 {
+	        transform: rotateY(72deg) translateZ(330px);
+        }
+        .stage .piece-4 {
+	        transform: rotateY(108deg) translateZ(330px);
+        }
+        .stage .piece-5 {
+	        transform: rotateY(144deg) translateZ(330px);
+        }
+        .stage .piece-6 {
+	        transform: rotateY(180deg) translateZ(330px);
+        }
+        .stage .piece-7 {
+	        transform: rotateY(216deg) translateZ(330px);
+        }
+        .stage .piece-8 {
+	        transform: rotateY(252deg) translateZ(330px);
+        }
+        .stage .piece-9 {
+	        transform: rotateY(288deg) translateZ(330px);
+        }
+        .stage .piece-10 {
+	        transform: rotateY(324deg) translateZ(330px);
+        }
+    </style>
+</head>
+<body style="height: 100%">
+    <div class="stage">
+		<img class="piece piece-1" src="/static/images/1.jpg" alt="">
+		<img class="piece piece-2" src="/static/images/2.jpg" alt="">
+		<img class="piece piece-3" src="/static/images/3.jpg" alt="">
+		<img class="piece piece-4" src="/static/images/4.jpg" alt="">
+		<img class="piece piece-5" src="/static/images/5.jpg" alt="">
+		<img class="piece piece-6" src="/static/images/6.jpg" alt="">
+        <img class="piece piece-7" src="/static/images/1.jpg" alt="">
+		<img class="piece piece-8" src="/static/images/2.jpg" alt="">
+		<img class="piece piece-9" src="/static/images/3.jpg" alt="">
+		<img class="piece piece-10" src="/static/images/4.jpg" alt="">
+        <div class="plane"></div>
+    </div>
+</body>
+</html>

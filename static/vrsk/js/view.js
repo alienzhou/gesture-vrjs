@@ -33,7 +33,7 @@
     // 手势方法
     gestureFunc = function (direction) {
         var style = '';
-        if (direction === 'none') {
+        if (direction === 'none' || direction === '上' || direction === '下') {
             return;
         }
         switch (direction) {

@@ -39,22 +39,10 @@
     gestureFunc = function (direction) {
         var style = '';
         if (direction === 'none') {
+            $('#output').text('输出：无');
             return;
         }
-        switch (direction) {
-            case '左':
-                rotate.y -= 60;
-                break;
-            case '右':
-                rotate.y += 60;
-                break;
-            default:
-                break;
-        }
-        style = 'rotateY(' + rotate.y + 'deg)';
-        $('.piece-box').css({
-            'transform': style
-        });
+        $('#output').text('输出：' + direction);
         socket.emit('gesture', {
             id: getQuery('id'),
             direction: direction
@@ -121,30 +109,6 @@
         delayCal();
     });
 
-    // VR开关
-    $('input[name="model"]').on('change', function () {
-        $('input[name="model"]').each(function () {
-            $(this).removeAttr('checked');
-        });
-        $(this).attr('checked', 'checked');
-        if (+$('input[name="model"][checked]').val() === 1) {
-            $('#2d').hide();
-            $('#3d').show();
-        }
-        else {
-            $('#3d').hide();
-            $('#2d').show();
-        }
-    });
-    if (+$('input[name="model"][checked]').val() === 1) {
-        $('#2d').hide();
-        $('#3d').show();
-    }
-    else {
-        $('#3d').hide();
-        $('#2d').show();
-    }
-
     function queneProcess() {
         var tmp = [];
         var moveArr = [];
@@ -169,7 +133,7 @@
         }
         // 运动数组阈值判断（运动点个数，横移距离）
         if (moveArr.length > 2
-                && Math.abs(moveArr[0][0] - moveArr[moveArr.length - 1][0]) > 10) {
+                && (Math.abs(moveArr[0][0] - moveArr[moveArr.length - 1][0]) > 10 || Math.abs(moveArr[0][1] - moveArr[moveArr.length - 1][1]) > 10)) {
             var angle = MCal.calAngle(moveArr[0], moveArr[moveArr.length - 1]);
             $('#smooth').text(angle);
             if (angle >= 315 || angle < 45) {
@@ -177,6 +141,9 @@
             }
             else if (angle >= 135 && angle < 225) {
                 direction = '左';
+            }
+            else if (angle >= 60 && angle < 150) {
+                direction = '上';
             }
             // 设置手势检测的间隔。一个手势过后25ms开始下一次数据记录
             startDetect = false;

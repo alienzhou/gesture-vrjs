@@ -8,40 +8,23 @@
 	<script src="/static/js/zepto.1.2.0.min.js"></script>
     <script src="/node_modules/socket.io-client/dist/socket.io.js"></script>
 	<title>gesture-carousel</title>
+	<style>
+		.output {
+			position: absolute;
+			top: 50%;
+			margin-top: -150px; 
+			height: 300px;
+			line-height: 300px;
+			width: 100%;
+			text-align: center;
+			font-size: 80px;
+			color: #fff;
+			
+		}
+	</style>
 </head>
 <body style="height: 100%">
-    <div id="2d" class="container">
-	    <div class="piece-box">
-			<img class="piece piece-1" src="/static/images/1.jpg" alt="">
-			<img class="piece piece-2" src="/static/images/2.jpg" alt="">
-			<img class="piece piece-3" src="/static/images/3.jpg" alt="">
-			<img class="piece piece-4" src="/static/images/4.jpg" alt="">
-			<img class="piece piece-5" src="/static/images/5.jpg" alt="">
-			<img class="piece piece-6" src="/static/images/6.jpg" alt="">
-	    </div>
-    </div>
-    <div id="3d" class="stage clearfix">
-        <div class="left_eye">
-            <div class="piece-box">
-			    <img class="piece piece-1" src="/static/images/1.jpg" alt="">
-			    <img class="piece piece-2" src="/static/images/2.jpg" alt="">
-			    <img class="piece piece-3" src="/static/images/3.jpg" alt="">
-			    <img class="piece piece-4" src="/static/images/4.jpg" alt="">
-			    <img class="piece piece-5" src="/static/images/5.jpg" alt="">
-			    <img class="piece piece-6" src="/static/images/6.jpg" alt="">
-	        </div>
-        </div>
-        <div class="right_eye">
-            <div class="piece-box">
-			    <img class="piece piece-1" src="/static/images/1.jpg" alt="">
-			    <img class="piece piece-2" src="/static/images/2.jpg" alt="">
-			    <img class="piece piece-3" src="/static/images/3.jpg" alt="">
-			    <img class="piece piece-4" src="/static/images/4.jpg" alt="">
-			    <img class="piece piece-5" src="/static/images/5.jpg" alt="">
-			    <img class="piece piece-6" src="/static/images/6.jpg" alt="">
-	        </div>
-        </div>
-    </div>
+	<div id="output" class="output">输出：无</div>
     <div id="mask" class="mask"></div>
 	<div class="full_page">
 		<span id="setting-btn" class="setting_btn">设</br>置</span>

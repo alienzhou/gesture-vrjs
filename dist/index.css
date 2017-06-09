@@ -1,0 +1,1 @@
+*,::after,::before,body{-webkit-box-sizing:border-box;box-sizing:border-box}body{margin:0;background:#000}.clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden}

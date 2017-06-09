@@ -1,3 +1,5 @@
+import io from 'socket.io';
+
 (function(){
     var socket = io();
     var video = document.getElementById('video');
